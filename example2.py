@@ -104,7 +104,7 @@ def EDM(n,h):
     
     MEDM[1][1] = 1
     MEDM[1][2] = -2.
-    MEDM[1][3] = -1.
+    MEDM[1][3] = 1.
     
     MEDM[2][2] = 1
 
@@ -192,7 +192,7 @@ def errorEDM(n,h,u):
     
     for i in range(3,n+2):
         e.append(abs((exactSolution((i-2)*h)-u[i])/exactSolution((i-2)*h)))
-        #print(exactSolution((i-2)*h),u[i],(i-2)*h)
+        #Sprint(exactSolution((i-2)*h),u[i],(i-2)*h)
 
     return max(e)
 
@@ -203,7 +203,7 @@ def errorEDM(n,h,u):
 
 print("n,h,LLEM,EDM,VHM")
 
-for i in range(2,5):
+for i in range(2,6):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
