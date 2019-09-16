@@ -1,6 +1,11 @@
 import numpy as np
 import sys 
+import matplotlib.pyplot as plt
 
+if not len(sys.argv) == 2:
+    print("Error: Either provide linear or quadratic as the first argument")
+    sys.exit()
+    
 example = sys.argv[1] 
 
 #############################################################################
@@ -18,8 +23,12 @@ def exactSolution(x):
     
     if example == "linear":
         return x*(3.-x)*(3.+x)/6.
-    if example == "quadratic":
+    elif example == "quadratic":
         return x*(4.+x*x*x)/12.
+    else:
+        print("Error: Either provide linear or quadratic")
+        sys.exit()
+        
     
 #############################################################################
 # Loading
@@ -29,8 +38,11 @@ def f(x):
     
     if example == "linear":
         return x
-    if example == "quadratic":
+    elif example == "quadratic":
         return x*x
+    else:
+        print("Error: Either provide linear or quadratic")
+        sys.exit()
 
 #############################################################################
 # Assemble the stiffness matrix for the local linear elasticity model (LLEM)
@@ -51,7 +63,7 @@ def LLEM(n,h):
     MLLEM[n-1][n-3] = h
 
     MLLEM *= 1./(2.*h*h)
-
+    
     return  MLLEM
 
 #############################################################################
@@ -84,7 +96,7 @@ def VHM(n,h):
     MVHM[n-1][n-3] = 4.*h
 
     MVHM *= 1./(8.*h*h)
-
+    
     return  MVHM
 
 #############################################################################
@@ -125,14 +137,11 @@ def EDM(n,h):
     MEDM[length-2][length-3] = -2.
     MEDM[length-2][length-4] = 1.
 
-    MEDM[length-1][length-1] = 1
-    MEDM[length-1][length-3] = -2
-    MEDM[length-1][length-5] = 1
+    MEDM[length-1][length-1] = 1.
+    MEDM[length-1][length-3] = -2.
+    MEDM[length-1][length-5] = 1.
     
-
     MEDM *= 1./(8.*h*h)
-
-    #print MEDM
 
     return MEDM
 
@@ -192,7 +201,7 @@ def errorEDM(n,h,u):
     
     for i in range(3,n+2):
         e.append(abs((exactSolution((i-2)*h)-u[i])/exactSolution((i-2)*h)))
-        #Sprint(exactSolution((i-2)*h),u[i],(i-2)*h)
+        #print(exactSolution((i-2)*h),u[i],(i-2)*h)
 
     return max(e)
 
@@ -201,12 +210,19 @@ def errorEDM(n,h,u):
 #Computation
 #############################################################################
 
+
+
+figure, (ax1, ax2,ax3) = plt.subplots(3, 1, sharex=True)
+markers = ['|','.','*','+']
 print("n,h,LLEM,EDM,VHM")
+
 
 for i in range(2,6):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
+    
+    x = np.linspace(0,1.,nodes)
     
     uLLEM = solve(LLEM(nodes,h),force(nodes,h))
     uVHM = solve(VHM(nodes,h),force(nodes,h))
@@ -215,6 +231,36 @@ for i in range(2,6):
     print(str(n)+","+str(h)+","+str(error(nodes,h,uLLEM))+","+str(errorEDM(nodes,h,uEDM))+","+str(error(nodes,h,uVHM)))
     
     
+    # Plot the displacement
+    if n == 4:
+        ax1.plot(x,exactSolution(x),label="Exact",c="black")
+        ax2.plot(x,exactSolution(x),label="Exact",c="black")
+        ax3.plot(x,exactSolution(x),label="Exact",c="black")
     
+    ax1.scatter(x, uLLEM,label=h)
+    ax2.scatter(x, uVHM,label=h)
+    ax3.scatter(x, uEDM[2:len(uEDM)-2])
+
+
+    
+
+lines_labels = [ax1.get_legend_handles_labels()]
+lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+
+figure.legend(lines, labels,loc=8,ncol=5)
+
+
+figure.suptitle("Loading: "+example)
+plt.xlabel("Node position")
+ax1.set_title('LLEM')
+ax1.set_ylabel('u')
+ax1.grid()
+ax2.set_title('VHM')
+ax2.grid()
+ax2.set_ylabel('u')
+ax3.set_title('EDM')
+ax3.grid()
+ax3.set_ylabel('u')
+plt.savefig(example+"-displacement.pdf",bbox_inches='tight')
     
     
