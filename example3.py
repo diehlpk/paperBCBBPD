@@ -1,12 +1,11 @@
+#!/usr/bin/env python3
+# @author patrickdiehl@lsu.edu
+# @author serge.prudhomme@polymtl.ca
+# @date 10/05/2019
 import numpy as np
 import sys 
 import matplotlib.pyplot as plt
 
-#if not len(sys.argv) == 2:
-#    print("Error: Either provide linear or quadratic as the first argument")
-#    sys.exit()
-    
-#example = sys.argv[1] 
 example = "Cubic"
 
 #############################################################################
@@ -26,7 +25,6 @@ def exactSolution(x):
         return x*(3.-x)*(3.+x)/6.
     elif example == "Quartic":
         return x*(16.-x*x*x)/12.
-#        return x*(1-x*x*x)/12.
     elif example == "Quadratic":
         return x*(4.-x)/2.
     elif example == "Linear":
@@ -91,11 +89,6 @@ def EDM(n,h):
     MEDM[1][1] = 11.
     MEDM[1][2] = -4.
     MEDM[1][3] = -1.
-
-#    MEDM[1][0] = -6.*8./7.
-#    MEDM[1][1] = 11.*8./7.
-#    MEDM[1][2] = -4.*8./7.
-#    MEDM[1][3] = -1.*8./7.
     
     for i in range(2,n-2):
         MEDM[i][i-2] = -1.
@@ -109,12 +102,6 @@ def EDM(n,h):
     MEDM[n-2][n-2] = 11.
     MEDM[n-2][n-3] = -4.
     MEDM[n-2][n-4] = -1.
-
-#    MEDM[n-2][n-1] = -6.*8./7.
-#    MEDM[n-2][n-2] = 11.*8./7.
-#    MEDM[n-2][n-3] = -4.*8./7.
-#    MEDM[n-2][n-4] = -1.*8./7.
-
 
     MEDM[n-1][n-1] = 12.*h
     MEDM[n-1][n-2] = -16.*h
@@ -170,7 +157,6 @@ def force(n,h):
         force[i] = f(i * h)
     
     force[n-1] = 1
-#    force[n-1] = 0.
     
     return force
 
@@ -183,7 +169,6 @@ def error(n,h,u):
     
     for i in range(1,n):
         e.append(abs((exactSolution(i*h)-u[i])/exactSolution(i*h)))
-        #print(exactSolution((i)*h),u[i],(i)*h)
 
     return max(e)
 
