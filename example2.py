@@ -156,7 +156,7 @@ def force(n,h):
     for i in range(1,n-1):
         force[i] = f(i * h)
     
-    force[n-1] = 1
+    force[n-1] =  1.
     
     return force
 
@@ -172,7 +172,7 @@ def forceEDM(n,h):
     for i in range(3,n+4-3):
         force[i] = f((i-2) * h)
     
-    force[n+4-3] = 1
+    force[n+4-3] = 1.
     
     #print force
     
@@ -201,7 +201,7 @@ def errorEDM(n,h,u):
     
     for i in range(3,n+2):
         e.append(abs((exactSolution((i-2)*h)-u[i])/exactSolution((i-2)*h)))
-        #print(exactSolution((i-2)*h),u[i],(i-2)*h)
+        print(exactSolution((i-2)*h),u[i],(i-2)*h)
 
     return max(e)
 
@@ -217,7 +217,7 @@ markers = ['|','.','*','+']
 print("n,h,LLEM,EDM,VHM")
 
 
-for i in range(2,6):
+for i in range(2,5):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
