@@ -1,3 +1,4 @@
 
-
-python example2.py linear > data_example2.csv
+python example1.py
+python example2.py
+python example3.py
