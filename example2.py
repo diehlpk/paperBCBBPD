@@ -9,6 +9,19 @@ import matplotlib.pyplot as plt
 example = "Quartic"
 
 #############################################################################
+#  kappa(x) Equation 10 in the paper
+#############################################################################
+
+def s(x,delta):
+    if x < delta:
+        return (2*delta*delta)/(delta*delta+x*x)
+    if x > 1 - delta:
+        return (2*delta*delta)/(delta*delta+(1-x)*(1-x))
+    else:
+        return 1
+
+
+#############################################################################
 # Solve the system
 #############################################################################
 
@@ -144,6 +157,36 @@ def VHM(n,h):
     
     return  MVHM
 
+#############################################################################
+# Assemble the stiffness matrix for our surface correction
+#############################################################################
+def SCM(n,h,delta):
+
+    M = np.zeros([n,n])
+
+    M[0][0]=1 * s(x[0],delta) / h  / h
+    M[1][0] = -1. * s(x[1],delta)  / h / h 
+    M[1][1] = 2.  * s(x[1],delta) /  h / h  
+    M[1][2] = -1. * s(x[1],delta)  / h / h 
+
+
+    for i in range(2,n-2):
+        M[i][i-2] = -(1./8.) * s(x[i],delta)  / h / h 
+        M[i][i-1] = -(1./2.) * s(x[i],delta)  / h / h 
+        M[i][i] = (5./4.) * s(x[i],delta)  / h / h 
+        M[i][i+1] = -(1./2.) * s(x[i],delta)  / h / h 
+        M[i][i+2] = -(1./8.) * s(x[i],delta)  / h / h 
+    
+    M[n-2][n-1] = -1. * s(x[n-2],delta)  / h / h 
+    M[n-2][n-2] = 2. * s(x[n-2],delta)  / h / h 
+    M[n-2][n-3] = -1. * s(x[n-2],delta)  / h / h 
+
+    M[n-1][n-1] = 3. *  s(x[n-1],delta)    / h  / 4. 
+    M[n-1][n-2] = -4. * s(x[n-1],delta) / h   / 4.  
+    M[n-1][n-3] = 1. * s(x[n-1],delta)   /  h / 4.
+
+    return M
+
 
 #############################################################################
 # Loading for the LLEM and VHM 
@@ -198,6 +241,7 @@ for i in range(2,6):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
+    delta = 2*h
     
     x = np.linspace(0,1.,nodes)
     
@@ -205,8 +249,11 @@ for i in range(2,6):
     uEDM = solve(EDM(nodes,h),force(nodes,h))
     uVHM = solve(VHM(nodes,h),force(nodes,h))
     eEDM = errorplot(nodes,h,uEDM)
+    uSCM = solve(SCM(nodes,h,delta),force(nodes,h))
     
-    print(str(n)+","+str(h)+","+str(error(nodes,h,uLLEM))+","+str(error(nodes,h,uEDM))+","+str(error(nodes,h,uVHM)))
+    
+    print(str(n)+","+str(h)+","+str(error(nodes,h,uLLEM))+","+str(error(nodes,h,uEDM))+","+str(error(nodes,h,uVHM))+","+str(error(nodes,h,uSCM)))
+
     
     # Plot the displacement
     if n == 8:
