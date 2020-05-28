@@ -232,7 +232,7 @@ def errorplot(n,h,u):
 #Computation
 #############################################################################
 
-figure, (ax1, ax2,ax3) = plt.subplots(3, 1, sharex=True)
+figure, (ax1, ax2,ax3,ax4) = plt.subplots(4, 1, sharex=True)
 markers = ['|','.','*','+']
 print("n,h,LLEM,EDM,VHM")
 
@@ -260,10 +260,12 @@ for i in range(2,6):
         ax1.plot(x,exactSolution(x),label="Exact",c="black")
         ax2.plot(x,exactSolution(x),label="Exact",c="black")
         ax3.plot(x,exactSolution(x),label="Exact",c="black")
+        ax4.plot(x,exactSolution(x),label="Exact",c="black")
     
     ax1.scatter(x, uLLEM,label=h)
     ax2.scatter(x, uEDM,label=h)
     ax3.scatter(x, uVHM,label=h)
+    ax4.scatter(x, uSCM,label=h)
         
 
 lines_labels = [ax1.get_legend_handles_labels()]
@@ -283,6 +285,9 @@ ax2.set_ylabel('u')
 ax3.set_title('VHM')
 ax3.grid()
 ax3.set_ylabel('u')
+ax4.set_title('SCM')
+ax4.grid()
+ax4.set_ylabel('u')
 plt.savefig(example+"-displacement.pdf",bbox_inches='tight')
     
 
@@ -339,3 +344,32 @@ plt.yscale('linear')
 plt.title("Example with "+example+" Solution using VHM")
 plt.grid(True)
 plt.savefig("VHM-Error-"+example+"Solution.pdf",bbox_inches='tight')
+
+
+#############################################################################
+# Figure with errors in displacement
+#############################################################################
+
+plt.figure(4)
+markers = ['s','o','x','.']
+
+for i in range(2,6):
+    n = np.power(2,i)
+    h = 1./n
+    nodes = n+1
+    delta = 2*h
+    
+    x = np.linspace(0,1.,nodes)
+    
+    uSCM = solve(SCM(nodes,h,delta),force(nodes,h))
+    eSCM = errorplot(nodes,h,uSCM)
+    plt.scatter(x,eSCM,label="h="+str(h), marker=markers[i-2], c="black")
+
+plt.legend(loc= "upper left")
+plt.xlabel("x")
+plt.ylabel('Error in displacement')
+plt.xscale('linear')
+plt.yscale('linear')
+plt.title("Example with "+example+" Solution using SCM")
+plt.grid(True)
+plt.savefig("SCM-Error-"+example+"Solution.pdf",bbox_inches='tight')
