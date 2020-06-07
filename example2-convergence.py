@@ -151,9 +151,9 @@ def VHM4(n,h):
     MVHM[0][0] = 1. / 2. / h / h
     
     # Node with one neighbor
-    MVHM[1][0] = -1.  / 2. / h / h
-    MVHM[1][1] = 2.   / 2. / h / h
-    MVHM[1][2] = -1./ 2. / h / h
+    MVHM[1][0] = -1.  / 2. / h / h *2 
+    MVHM[1][1] = 2.   / 2. / h / h *2 
+    MVHM[1][2] = -1./ 2. / h / h *2
     
     # Node with two neighbors
     MVHM[2][0] = -(1./8.) / 2. / h / h  *2
@@ -202,9 +202,9 @@ def VHM4(n,h):
     MVHM[n-3][n-1] = -(1./8.)/ 2. / h / h *2
     
     # Node with one neighbor
-    MVHM[n-2][n-3] = -1.   / 2. / h / h
-    MVHM[n-2][n-2] = 2.   / 2. / h / h
-    MVHM[n-2][n-1] = -1/ 2. / h / h
+    MVHM[n-2][n-3] = -1.   / 2. / h / h *2
+    MVHM[n-2][n-2] = 2.   / 2. / h / h *2 
+    MVHM[n-2][n-1] = -1/ 2. / h / h *2
     
     #Conditon
     MVHM[n-1][n-1] = 3.   / h  / 2. 
@@ -219,12 +219,12 @@ def VHM8(n,h):
     MVHM = np.zeros([n,n])
     
     #Condition
-    MVHM[0][0] = 1. / 2. / h / h
+    MVHM[0][0] = 1. / 2. / h / h 
     
     # Node with one neighbor
-    MVHM[1][0] = -1.  /  2. / h  / h 
-    MVHM[1][1] = 2   /  2. /  h / h  
-    MVHM[1][2] = -1./ 2.  / h  / h 
+    MVHM[1][0] = -1.  /  2. / h  / h * 2
+    MVHM[1][1] = 2   /  2. /  h / h   * 2
+    MVHM[1][2] = -1./ 2.  / h  / h  *2
     
     # Node with two neighbors
     MVHM[2][0] =  -(1./8.)/ 2. / h / h *2
@@ -398,14 +398,14 @@ def VHM8(n,h):
     MVHM[n-3][n-1] = -(1./8.)/ 2. / h / h *2
     
     # Node with one neighbor
-    MVHM[n-2][n-3] = -1.  /  2. / h  / h 
-    MVHM[n-2][n-2] = 2   /  2. /  h / h  
-    MVHM[n-2][n-1] = -1./ 2.  / h  / h 
+    MVHM[n-2][n-3] = -1.  /  2. / h  / h *2
+    MVHM[n-2][n-2] = 2   /  2. /  h / h  *2
+    MVHM[n-2][n-1] = -1./ 2.  / h  / h  *2
     
     #Conditon
     MVHM[n-1][n-1] = 3.   / h   / 2. 
-    MVHM[n-1][n-2] = -4. /  h  / 2  
-    MVHM[n-1][n-3] = 1. /   h / 2
+    MVHM[n-1][n-2] = -4. /  h  / 2    
+    MVHM[n-1][n-3] = 1. /   h / 2 
         
     return MVHM
 
@@ -417,7 +417,7 @@ delta = 0.01
 
 # Case 1  
 h = delta / 2
-nodes = int(1 / h)
+nodes = int(1 / h) + 1
 x2 = np.linspace(0,1.,nodes)
 f2=force(nodes,h,x2)
 u2 = solve(VHM2(nodes,h),f2)
@@ -426,7 +426,7 @@ print(h,len(x2),error(x2,u2))
 
 # Case 2
 h = delta / 4
-nodes = int(1 / h)
+nodes = int(1 / h) + 1
 x4 = np.linspace(0,1.,nodes)
 f4=force(nodes,h,x4)
 u4 = solve(VHM4(nodes,h),f4)
@@ -435,7 +435,7 @@ print(h,len(x4),error(x4,u4))
 
 # Case 3
 h = delta / 8
-nodes = int(1 / h)
+nodes = int(1 / h) + 1
 x8 = np.linspace(0,1.,nodes)
 f8=force(nodes,h,x8)
 u8 = solve(VHM8(nodes,h),f8)
