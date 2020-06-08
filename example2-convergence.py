@@ -413,7 +413,7 @@ def VHM8(n,h):
 #Computation
 #############################################################################
 print("h,nodes,error")
-delta = 0.01
+delta = 0.25
 
 # Case 1  
 h = delta / 2
@@ -449,6 +449,13 @@ plt.grid()
 plt.legend()
 plt.savefig("VHM-Quartic-convergence.pdf")
 
+plt.close()
+plt.plot(x2,u2,label=r"$\sfrac{\delta}{2}$",color="black",linestyle="-")
+plt.plot(x4,u4,label=r"$\sfrac{\delta}{4}$",color="black",linestyle=":")
+plt.plot(x8,u8,label=r"$\sfrac{\delta}{8}$",color="black",linestyle="-.")
+plt.grid()
+plt.legend()
+plt.savefig("VHM-Quartic-solution.pdf")
 
     
 
