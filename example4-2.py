@@ -5,8 +5,9 @@
 import numpy as np
 import sys 
 import matplotlib.pyplot as plt
+from decimal import Decimal
 
-eps=0.1
+eps=0.01
 
 #############################################################################
 # Solve the system
@@ -66,8 +67,9 @@ def VHM(n,h):
 #############################################################################
 print("n,h,VHM")
 markers = ['s','o','x','.']
+size= [2,4,8,10]
 
-for i in range(2,6):
+for i in range(6,10):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -78,8 +80,9 @@ for i in range(2,6):
 
 
     u=np.linalg.solve(VHM(nodes,h),load)
-    print(str(n)+","+str(h)+","+str(max(abs(u-exactSolution(x)))))
-    plt.scatter(x,u-exactSolution(x),label="h="+str(h), marker=markers[i-2], c="black")
+
+    print(str(n)+","+str(h)+","+str(abs(max(abs(u-exactSolution(x))))))
+    plt.plot(x,u-exactSolution(x),label="h="+str(h), marker=markers[i-6], c="black",markevery=size[i-6],ls='')
 
 
 plt.title(r"Example with $\epsilon=$"+str(eps)+" Solution using VHM")
