@@ -6,7 +6,7 @@ import numpy as np
 import sys 
 import matplotlib.pyplot as plt
 
-eps=0.01
+eps=0.1
 
 #############################################################################
 # Solve the system
@@ -65,9 +65,9 @@ def VHM(n,h):
 #Computation
 #############################################################################
 print("n,h,VHM")
-markers = ['s','o','x','.','|','.','*','+']
+markers = ['s','o','x','.']
 
-for i in range(2,9):
+for i in range(2,6):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
