@@ -78,7 +78,7 @@ for i in range(2,6):
 
 
     u=np.linalg.solve(VHM(nodes,h),load)
-    print(str(n)+","+str(h)+","+str(max(abs(u-exactSolution(x)))))
+    print(str(n)+","+str(h)+","+str(max(abs((u[1:len(u)-2]-exactSolution(x)[1:len(u)-2])/exactSolution(x)[1:len(u)-2]))))
     plt.scatter(x,u-exactSolution(x),label="h="+str(h), marker=markers[i-2], c="black")
 
 
