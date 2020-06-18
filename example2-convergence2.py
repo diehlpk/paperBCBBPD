@@ -414,7 +414,7 @@ def VHM8(n,h):
 #Computation
 #############################################################################
 print("h,nodes,error")
-delta = 0.25
+delta = 0.125
 
 # Case 1  
 h = delta / 2
@@ -448,7 +448,7 @@ plt.xlabel("x")
 plt.ylabel("Error in displacement")
 plt.grid()
 plt.legend()
-plt.savefig("VHM-Quartic-convergence.pdf",bbox_inches='tight')
+plt.savefig("VHM-Quartic-convergence2.pdf",bbox_inches='tight')
 
 plt.close()
 plt.plot(x2,u2,label=r"$\sfrac{\delta}{2}$",color="black",linestyle="-")
@@ -456,7 +456,7 @@ plt.plot(x4,u4,label=r"$\sfrac{\delta}{4}$",color="black",linestyle=":")
 plt.plot(x8,u8,label=r"$\sfrac{\delta}{8}$",color="black",linestyle="-.")
 plt.grid()
 plt.legend()
-plt.savefig("VHM-Quartic-convergence-displacement.pdf",bbox_inches='tight')
+plt.savefig("VHM-Quartic-solution2.pdf",bbox_inches='tight')
 
     
 

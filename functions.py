@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 matplotlib.rcParams["text.usetex"] = True
+matplotlib.rcParams["font.size"] = 12
 matplotlib.rcParams['text.latex.preamble'] = [
     r'\usepackage{xfrac}']
 
@@ -23,4 +24,4 @@ plt.ylabel(r"$u(x)$")
 plt.legend()
 plt.grid()
 
-plt.savefig("functions.pdf")
+plt.savefig("functions.pdf",bbox_inches='tight')

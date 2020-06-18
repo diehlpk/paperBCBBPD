@@ -5,6 +5,12 @@
 import numpy as np
 import sys 
 import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.rcParams["text.usetex"] = True
+matplotlib.rcParams["font.size"] = 12
+matplotlib.rcParams['text.latex.preamble'] = [
+    r'\usepackage{xfrac}']
 
 eps=0.1
 
@@ -79,7 +85,7 @@ for i in range(2,6):
 
     u=np.linalg.solve(VHM(nodes,h),load)
     print(str(n)+","+str(h)+","+str(max(abs((u[1:len(u)-2]-exactSolution(x)[1:len(u)-2])/exactSolution(x)[1:len(u)-2]))))
-    plt.scatter(x,u-exactSolution(x),label="h="+str(h), marker=markers[i-2], c="black")
+    plt.scatter(x,u-exactSolution(x),label="$\delta$="+str(2*h), marker=markers[i-2], c="black")
 
 
 plt.title(r"Example with $\epsilon=$"+str(eps)+" Solution using VHM")

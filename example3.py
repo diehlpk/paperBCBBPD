@@ -5,6 +5,12 @@
 import numpy as np
 import sys 
 import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.rcParams["text.usetex"] = True
+matplotlib.rcParams["font.size"] = 12
+matplotlib.rcParams['text.latex.preamble'] = [
+    r'\usepackage{xfrac}']
 
 example = "Cubic"
 
@@ -255,7 +261,7 @@ for i in range(2,6):
     
     uEDM = solve(EDM(nodes,h),force(nodes,h))
     eEDM = errorplot(nodes,h,uEDM)
-    plt.scatter(x,eEDM,label="h="+str(h), marker=markers[i-2], c="black")
+    plt.scatter(x,eEDM,label="$\delta$="+str(2*h), marker=markers[i-2], c="black")
 
 plt.legend(loc= "lower left")
 plt.xlabel("x")
@@ -282,7 +288,7 @@ for i in range(2,6):
     
     uVHM = solve(VHM(nodes,h),force(nodes,h))
     eVHM = errorplot(nodes,h,uVHM)
-    plt.scatter(x,eVHM,label="h="+str(h), marker=markers[i-2], c="black")
+    plt.scatter(x,eVHM,label="$\delta$="+str(2*h), marker=markers[i-2], c="black")
 
 plt.legend(loc= "upper left")
 plt.xlabel("x")
