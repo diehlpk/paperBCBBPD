@@ -12,6 +12,7 @@ matplotlib.rcParams["font.size"] = 12
 matplotlib.rcParams['text.latex.preamble'] = [
     r'\usepackage{xfrac}']
 
+np.set_printoptions(precision=10)
 
 example = "Quartic"
 
@@ -50,7 +51,7 @@ def f(x):
     if example == "Cubic":
         return x
     elif example == "Quartic":
-        return x*x
+        return x*x + (delta*delta) / 12
     elif example == "Quadratic":
         return 1
     elif example == "Linear":
@@ -422,7 +423,7 @@ nodes = int(1 / h) + 1
 x2 = np.linspace(0,1.,nodes)
 f2=force(nodes,h,x2)
 u2 = solve(VHM2(nodes,h),f2)
-plt.plot(x2,exactSolution(x2)-u2,label=r"$\sfrac{\delta}{2}$",color="black",linestyle="-")
+plt.plot(x2,exactSolution(x2)-u2,label=r"$m=2$",color="black",linestyle="-")
 print(h,len(x2),error(x2,u2))
 
 # Case 2
@@ -431,7 +432,7 @@ nodes = int(1 / h) + 1
 x4 = np.linspace(0,1.,nodes)
 f4=force(nodes,h,x4)
 u4 = solve(VHM4(nodes,h),f4)
-plt.plot(x4,abs(exactSolution(x4)-u4),label=r"$\sfrac{\delta}{4}$",color="black",linestyle=":")
+plt.plot(x4,abs(exactSolution(x4)-u4),label=r"$m=4$",color="black",linestyle=":")
 print(h,len(x4),error(x4,u4))
 
 # Case 3
@@ -440,7 +441,7 @@ nodes = int(1 / h) + 1
 x8 = np.linspace(0,1.,nodes)
 f8=force(nodes,h,x8)
 u8 = solve(VHM8(nodes,h),f8)
-plt.plot(x8,exactSolution(x8)-u8,label=r"$\sfrac{\delta}{8}$",color="black",linestyle="-.")
+plt.plot(x8,exactSolution(x8)-u8,label=r"$m=8$",color="black",linestyle="-.")
 print(h,len(x8),error(x8,u8))
 
 plt.title("Convergence study with Quartic Solution using VHM")
@@ -451,9 +452,9 @@ plt.legend()
 plt.savefig("VHM-Quartic-convergence2.pdf",bbox_inches='tight')
 
 plt.close()
-plt.plot(x2,u2,label=r"$\sfrac{\delta}{2}$",color="black",linestyle="-")
-plt.plot(x4,u4,label=r"$\sfrac{\delta}{4}$",color="black",linestyle=":")
-plt.plot(x8,u8,label=r"$\sfrac{\delta}{8}$",color="black",linestyle="-.")
+plt.plot(x2,u2,label=r"$m=2$",color="black",linestyle="-")
+plt.plot(x4,u4,label=r"$m=4$",color="black",linestyle=":")
+plt.plot(x8,u8,label=r"$m=8$",color="black",linestyle="-.")
 plt.grid()
 plt.legend()
 plt.savefig("VHM-Quartic-solution2.pdf",bbox_inches='tight')
