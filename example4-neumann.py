@@ -84,7 +84,7 @@ print("n,h,VHM")
 markers = ['s','o','x','.']
 size= [2,4,8,10]
 
-for i in range(6,10):
+for i in range(5,10):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -96,9 +96,9 @@ for i in range(6,10):
  
     u=np.linalg.solve(VHM(nodes,h),load)
 
-    shif = min(u[1:len(u)-1])
     print(str(n)+","+str(h)+","+str(max(((u[1:len(u)-2]-exactSolution(x)[1:len(u)-2])/exactSolution(x)[1:len(u)-2]))))
-    plt.plot(x,u-exactSolution(x),label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$", marker=markers[i-6], c="black",markevery=size[i-6],ls='')
+    if i > 6:
+        plt.plot(x,u-exactSolution(x),label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$", marker=markers[i-6], c="black",markevery=size[i-6],ls='')
 
 
 plt.title(r"Example with $\epsilon=$"+str(eps)+" Solution using VHM")
@@ -112,11 +112,11 @@ plt.savefig("VHM-Error-eps-"+str(eps)+"-neumann-Solution.pdf",bbox_inches='tight
 
 
 plt.cla()
-monochrome = (cycler('color', ['k']) * cycler('linestyle',['-','--',':','-.']))
+monochrome = (cycler('color', ['k']) * cycler('linestyle',['--',':','-.']))
 ax = plt.gca()
 ax.set_prop_cycle(monochrome)
 
-for i in [2,3,4,8,10]:
+for i in [5,6,7]:
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -125,17 +125,16 @@ for i in [2,3,4,8,10]:
     load = force(x) 
     load[len(x)-1] = boundary(1)
 
- 
     u=np.linalg.solve(VHM(nodes,h),load)
     plt.plot(x,u,label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$")
 
-plt.plot(x,exactSolution(x),label="$u(x)$",color="blue",ls="-")
+plt.plot(x,exactSolution(x),label=r"$\underline{u}(x)$",color="black",ls="-")
 
 plt.xlabel("x")
 plt.ylabel('Displacement $u$')
 plt.xscale('linear')
 plt.yscale('linear')
-plt.title(r"Convergence study with $\epsilon=$"+str(eps)+" Solution using VHM")
+plt.title(r"Convergence Study with $\epsilon=$"+str(eps)+" Solution using VHM")
 plt.grid()
 plt.legend()
 plt.savefig("VHM-convergence-eps-"+str(eps)+"-neumann-Solution.pdf",bbox_inches='tight')

@@ -84,7 +84,7 @@ print("n,h,VHM")
 markers = ['s','o','x','.']
 size= [24,48,96,96]
 
-for i in range(10,14):
+for i in range(9,14):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -98,7 +98,8 @@ for i in range(10,14):
 
     shif = min(u[1:len(u)-1])
     print(str(n)+","+str(h)+","+str(max(((u[1:len(u)-2]-exactSolution(x)[1:len(u)-2])/exactSolution(x)[1:len(u)-2]))))
-    plt.plot(x,u-exactSolution(x),label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$", marker=markers[i-10], c="black",markevery=size[i-10],ls='')
+    if i > 9:
+        plt.plot(x,u-exactSolution(x),label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$", marker=markers[i-10], c="black",markevery=size[i-10],ls='')
 
 
 plt.title(r"Example with $\epsilon=$"+str(eps)+" Solution using VHM")
@@ -112,11 +113,11 @@ plt.savefig("VHM-Error-eps-"+str(eps)+"-neumann-Solution.pdf",bbox_inches='tight
 
 
 plt.cla()
-monochrome = (cycler('color', ['k']) * cycler('linestyle',['-','--',':','-.']))
+monochrome = (cycler('color', ['k']) * cycler('linestyle',['--',':','-.']))
 ax = plt.gca()
 ax.set_prop_cycle(monochrome)
 
-for i in [2,5,7,14]:
+for i in [9,10,11]:
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -129,7 +130,7 @@ for i in [2,5,7,14]:
     u=np.linalg.solve(VHM(nodes,h),load)
     plt.plot(x,u,label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$")
 
-plt.plot(x,exactSolution(x),label="$u(x)$",color="blue",ls="-")
+plt.plot(x,exactSolution(x),label=r"$\underline{u}(x)$",color="black",ls="-")
 
 plt.xlabel("x")
 plt.ylabel('Displacement $u$')
