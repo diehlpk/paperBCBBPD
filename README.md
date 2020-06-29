@@ -8,7 +8,7 @@ Examples: On the treatment of boundary conditions for bond-based peridynamics mo
 ## Usage
 
 ```bash
-virtualenv deps
+python3 -m venv deps
 source deps/bin/activate
 pip install -r requirements.txt
 ./run.sh
