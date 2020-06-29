@@ -41,17 +41,26 @@ def exactSolution(x):
     else:
         print("Error: Either provide linear or quadratic")
         sys.exit()
+
+#############################################################################
+# Variable horizon function
+#############################################################################
+def delta_v(i,delta,n):
+    if i == 1 or i == n-2:
+        return delta / 2
+    else: 
+        return delta
     
 #############################################################################
 # Loading
 #############################################################################
 
-def f(x):
+def f(x,delta,n,i):
     
     if example == "Cubic":
         return x
     elif example == "Quartic":
-        return x*x + (delta*delta) / 12
+        return x*x + delta_v(i,delta,n) * delta_v(i,delta,n)  / 12.
     elif example == "Quadratic":
         return 1
     elif example == "Linear":
@@ -65,12 +74,12 @@ def f(x):
 # Loading 
 #############################################################################
 
-def force(n,h,x):
+def force(n,h,x,delta):
     
     force = np.zeros(n)
    
     for i in range(1,n-1):
-        force[i] = f(x[i])
+        force[i] = f(x[i],delta,n,i)
     
     force[n-1] = 1
     
@@ -127,7 +136,6 @@ def VHM2(n,h):
         MVHM[i][i] = 10.
         MVHM[i][i+1] = -4.
         MVHM[i][i+2] = -1.
-
 
     MVHM[n-2][n-1] = -8.
     MVHM[n-2][n-2] = 16.
@@ -215,6 +223,9 @@ def VHM4(n,h):
      
     return MVHM
 
+#############################################################################
+# Assemble the stiffness matrix for delta=4h
+#############################################################################
 
 def VHM8(n,h):
     
@@ -320,7 +331,6 @@ def VHM8(n,h):
         MVHM[i][i+7] = -(1/224) / 2. / h / h*2
         MVHM[i][i+8] = -(1/512) / 2. / h / h*2
     
-    
     # Node with 7 neighbors
     MVHM[n-8][n-15] = -(1/343)  / 2. / h / h *2
     MVHM[n-8][n-14] = -(1/147)  / 2. / h / h*2
@@ -338,7 +348,6 @@ def VHM8(n,h):
     MVHM[n-8][n-2] = -(1/147)  / 2. / h / h*2
     MVHM[n-8][n-1] = -(1/343)  / 2. / h / h*2
     
-    
     # Node with 6 neighbors
     MVHM[n-7][n-13] =  -(1/216) / 2. / h / h *2
     MVHM[n-7][n-12] =  -(1/90) / 2. / h / h *2
@@ -354,8 +363,6 @@ def VHM8(n,h):
     MVHM[n-7][n-2] =  -(1/90) / 2. / h / h *2
     MVHM[n-7][n-1] =  -(1/216) / 2. / h / h *2
     
-
-    
     # Node with 5 neighbors   
     MVHM[n-6][n-11] = -(1/125) / 2. / h / h *2
     MVHM[n-6][n-10] = -(1/50) / 2. / h / h*2
@@ -369,7 +376,6 @@ def VHM8(n,h):
     MVHM[n-6][n-2] =-(1/50) / 2. / h / h*2
     MVHM[n-6][n-1] = -(1/125) / 2. / h / h*2
     
-    
     # Node with four neighbors
     MVHM[n-5][n-9] = -(1./64.)/ 2. / h / h *2
     MVHM[n-5][n-8] = -(1./24.)/ 2. / h / h*2
@@ -381,7 +387,6 @@ def VHM8(n,h):
     MVHM[n-5][n-2] = -(1./24.)/ 2. / h / h*2
     MVHM[n-5][n-1] = -(1./64.)/ 2. / h / h*2
     
-    
     # Node with three neighbors 
     MVHM[n-4][n-7] = -(1./27.)/ 2. / h / h *2
     MVHM[n-4][n-6] = -(1./9.)/ 2. / h / h *2
@@ -390,7 +395,6 @@ def VHM8(n,h):
     MVHM[n-4][n-3] = -(2./9.)/ 2. / h / h *2
     MVHM[n-4][n-2] = -(1./9.)/ 2. / h / h *2
     MVHM[n-4][n-1] = -(1./27.)/ 2. / h / h *2
-    
     
     # Node with two neighbors
     MVHM[n-3][n-5] = -(1./8.)/ 2. / h / h *2
@@ -421,7 +425,7 @@ delta = 0.125
 h = delta / 2
 nodes = int(1 / h) + 1
 x2 = np.linspace(0,1.,nodes)
-f2=force(nodes,h,x2)
+f2=force(nodes,h,x2,delta)
 u2 = solve(VHM2(nodes,h),f2)
 plt.plot(x2,exactSolution(x2)-u2,label=r"$m=2$",color="black",linestyle="-")
 print(h,len(x2),error(x2,u2))
@@ -430,7 +434,7 @@ print(h,len(x2),error(x2,u2))
 h = delta / 4
 nodes = int(1 / h) + 1
 x4 = np.linspace(0,1.,nodes)
-f4=force(nodes,h,x4)
+f4=force(nodes,h,x4,delta)
 u4 = solve(VHM4(nodes,h),f4)
 plt.plot(x4,abs(exactSolution(x4)-u4),label=r"$m=4$",color="black",linestyle=":")
 print(h,len(x4),error(x4,u4))
@@ -439,7 +443,7 @@ print(h,len(x4),error(x4,u4))
 h = delta / 8
 nodes = int(1 / h) + 1
 x8 = np.linspace(0,1.,nodes)
-f8=force(nodes,h,x8)
+f8=force(nodes,h,x8,delta)
 u8 = solve(VHM8(nodes,h),f8)
 plt.plot(x8,exactSolution(x8)-u8,label=r"$m=8$",color="black",linestyle="-.")
 print(h,len(x8),error(x8,u8))
