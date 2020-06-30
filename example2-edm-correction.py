@@ -128,11 +128,11 @@ def EDMCORRECTION(n,h):
     MEDM[1][2] = -4. * kx(x[1]) / 8 / h / h
     MEDM[1][3] = -1. * kx(x[1]) / 8 / h / h
     
-    MEDM[2][0] = -1. * kx(x[2]) / 8 / h / h
-    MEDM[2][1] = -4. * kx(x[2]) / 8 / h / h
-    MEDM[2][2] = 10. * kx(x[2])   / 8 / h / h
-    MEDM[2][3] = -4. * kx(x[2]) / 8 / h / h
-    MEDM[2][4] = -1. * kx(x[2]) / 8 / h / h
+    MEDM[2][0] = -1.  / 8 / h / h
+    MEDM[2][1] = -4.  / 8 / h / h
+    MEDM[2][2] = 10.    / 8 / h / h
+    MEDM[2][3] = -4.  / 8 / h / h
+    MEDM[2][4] = -1.  / 8 / h / h
     
     
     for i in range(3,n-3):
@@ -143,11 +143,11 @@ def EDMCORRECTION(n,h):
         MEDM[i][i+2] = -1. / 8 / h / h
 
         
-    MEDM[n-3][n-5] = -1. * kx2(x[n-3])  / 8 / h / h
-    MEDM[n-3][n-4] = -4. * kx2(x[n-3])  / 8 / h / h
-    MEDM[n-3][n-3] = 10. * kx2(x[n-3])  / 8 / h / h
-    MEDM[n-3][n-2] = -4. * kx2(x[n-3]) / 8 / h / h
-    MEDM[n-3][n-1] = -1. * kx2(x[n-3]) / 8 / h / h
+    MEDM[n-3][n-5] = -1.   / 8 / h / h
+    MEDM[n-3][n-4] = -4.   / 8 / h / h
+    MEDM[n-3][n-3] = 10.   / 8 / h / h
+    MEDM[n-3][n-2] = -4.  / 8 / h / h
+    MEDM[n-3][n-1] = -1.  / 8 / h / h
         
 
     MEDM[n-2][n-1] = -6. * kx2(x[n-2])  / 8 / h / h
