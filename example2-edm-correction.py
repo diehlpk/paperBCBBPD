@@ -20,16 +20,14 @@ example = "Quartic"
 #############################################################################
 
 def kx(x):
-    k=1
-    return k/(4*(x/delta)-(3-2*np.log(x/delta))*x*x/delta/delta)
+    return 1 / (4*(x/delta)-(3-2*np.log(x/delta))*x*x/delta/delta)
 
 #############################################################################
 # EDM correction for the right-hand side
 #############################################################################
 
 def kx2(x):
-    k=1
-    return k/(4*((1-x)/delta)-(3-2*np.log((1-x)/delta))*(1-x)*(1-x)/delta/delta)
+    return 1 / (4*((1-x)/delta)-(3-2*np.log((1-x)/delta))*(1-x)*(1-x)/delta/delta)
 
 #############################################################################
 # Solve the system
@@ -246,7 +244,7 @@ def errorplot(n,h,u):
 markers = ['s','o','x','.']
 print("n,delta,EDM,EDMCorrection1,EDMCorrection2")
 
-for i in range(3,7):
+for i in range(4,8):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -257,7 +255,7 @@ for i in range(3,7):
     uEDM = solve(EDM(nodes,h),force(nodes,h))
     uEDMCORRECTION = solve(EDMCORRECTION(nodes,h),force(nodes,h))
     uEDMCORRECTION2 = solve(EDMCORRECTION2(nodes,h),force(nodes,h))
-    plt.scatter(x,uEDMCORRECTION-exactSolution(x),color='black',marker=markers[i-3],label="$\delta="+str(delta)+"$")
+    plt.scatter(x,uEDMCORRECTION-exactSolution(x),color='black',marker=markers[i-4],label="$\delta="+str(delta)+"$")
     print(str(n)+","+str(2*h)+","+str(error(nodes,h,uEDM))+","+str(error(nodes,h,uEDMCORRECTION))+","+str(error(nodes,h,uEDMCORRECTION2)))
 
 plt.grid()
@@ -269,7 +267,7 @@ plt.savefig("EDM-Corrected-Error-"+example+"Solution.pdf",bbox_inches='tight')
     
 plt.cla()
 
-for i in range(3,7):
+for i in range(4,8):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -278,7 +276,7 @@ for i in range(3,7):
     x = np.linspace(0,1.,nodes)
     
     uEDMCORRECTION2 = solve(EDMCORRECTION2(nodes,h),force(nodes,h))
-    plt.scatter(x,uEDMCORRECTION2-exactSolution(x),color='black',marker=markers[i-3],label="$\delta="+str(delta)+"$")
+    plt.scatter(x,uEDMCORRECTION2-exactSolution(x),color='black',marker=markers[i-4],label="$\delta="+str(delta)+"$")
 
 plt.grid()
 plt.xlabel("x")

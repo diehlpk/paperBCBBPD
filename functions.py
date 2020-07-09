@@ -28,26 +28,31 @@ plt.savefig("functions.pdf",bbox_inches='tight')
 
 plt.clf()
 
-def kx(x):
-    k=1
-    return k/(4*(x/delta)-(3-2*np.log(x/delta))*x*x/delta/delta)
+def kx(x,delta):
+    return 1 / (4*(x/delta)-(3-2*np.log(x/delta))*x*x/delta/delta)
 
-def kx2(x):
-    k=1
-    return k/(4*((1-x)/delta)-(3-2*np.log((1-x)/delta))*(1-x)*(1-x)/delta/delta)
+def kx2(x,delta):
+    return 1 / (4*((1-x)/delta)-(3-2*np.log((1-x)/delta))*(1-x)*(1-x)/delta/delta)
 
 n = np.power(2,4)
-h=1./n
+h=1./ (n+1) 
 delta=2*h
 
-xp = np.linspace(0.01,2*h,2)
-plt.plot(xp,kx(xp),label="$\overline{\kappa}(x),\, x \in ]0,\delta]$",c="black")
-xp = np.linspace(1-2*h,0.99,2)
-plt.plot(xp,kx2(xp),label="$\overline{\kappa}(x),\, x \in [1-\delta,1]$",c="black",ls="-.")
+xp = np.array([h,2*h])
+print(kx(xp,delta))
+plt.scatter(xp,kx(xp,delta),label="$\sfrac{\overline{\kappa}(x)}{\kappa},\, x \in (0,\delta)$",c="black")
+xp2 = np.array([1-2*h,1-h])
+plt.scatter(xp2,kx2(xp2,delta),label="$\sfrac{\overline{\kappa}(x)}{\kappa},\, x \in (1-\delta,1)$",c="black",marker="s")
 plt.grid()
 plt.xlabel("x")
-plt.ylabel(r"$\overline{\kappa}(x)$")
-plt.legend()
-plt.title("Correction Factor for the EDM method")
+plt.ylabel(r"$\sfrac{\overline{\kappa}(x)}{\kappa}$")
+plt.legend(loc=8)
+plt.xlim(0,1)
+plt.ylim(0,1.25)
+plt.annotate("$x_1$", (xp[0], 1.05))
+plt.annotate("$x_2$", (xp[1], 0.95))
+plt.annotate("$x_{n-1}$", (xp2[1]-0.012, 1.05))
+plt.annotate("$x_{n-2}$", (xp2[0]-0.012, 0.95))
+plt.title("Correction Factor for the EDM I method")
 plt.savefig("EDM-correction.pdf",bbox_inches='tight')
 
