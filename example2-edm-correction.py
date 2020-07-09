@@ -287,8 +287,8 @@ plt.savefig("EDM-Corrected-Error-2-"+example+"Solution.pdf",bbox_inches='tight')
 
 
 plt.cla()
-
-for i in range(4,5):
+delta=0
+for i in range(5,6):
     n = np.power(2,i)
     h = 1./n
     nodes = n+1
@@ -299,13 +299,13 @@ for i in range(4,5):
     uEDM = solve(EDM(nodes,h),force(nodes,h))
     uEDMCORRECTION = solve(EDMCORRECTION(nodes,h),force(nodes,h))
     uEDMCORRECTION2 = solve(EDMCORRECTION2(nodes,h),force(nodes,h))
-    plt.scatter(x,abs(uEDM-exactSolution(x)),color='black',marker=markers[0],label="EDM")
-    plt.scatter(x,abs(uEDMCORRECTION-exactSolution(x)),color='black',marker=markers[1],label="EDM I")
-    plt.scatter(x,abs(uEDMCORRECTION2-exactSolution(x)),color='black',marker=markers[2],label="EDM 2")
+    plt.plot(x,abs(uEDM-exactSolution(x)),color='black',linestyle="-",label="EDM")
+    plt.plot(x,abs(uEDMCORRECTION-exactSolution(x)),color='black',linestyle=":",label="EDM I")
+    plt.plot(x,abs(uEDMCORRECTION2-exactSolution(x)),color='black',linestyle="-.",label="EDM 2")
 
 plt.grid()
 plt.xlabel("x")
 plt.ylabel("Absolute error in displacement")
-plt.title("Accuracy Study with Quartic Solution for $\delta=0.125$")
+plt.title("Accuracy Study with Quartic Solution for $\delta="+str(delta)+"$")
 plt.legend()
 plt.savefig("EDM-Corrected-Comparison-"+example+"Solution.pdf",bbox_inches='tight')
