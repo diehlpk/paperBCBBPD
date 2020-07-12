@@ -261,7 +261,7 @@ for i in range(4,8):
 plt.grid()
 plt.xlabel("x")
 plt.ylabel("Error in displacement")
-plt.title("Example with Quartic Solution using corrected EDM I")
+plt.title("Example with Quartic Solution using EDM I")
 plt.legend()
 plt.savefig("EDM-Corrected-Error-"+example+"Solution.pdf",bbox_inches='tight')
     
@@ -281,7 +281,7 @@ for i in range(4,8):
 plt.grid()
 plt.xlabel("x")
 plt.ylabel("Error in displacement")
-plt.title("Example with Quartic Solution using corrected EDM II")
+plt.title("Example with Quartic Solution using EDM II")
 plt.legend()
 plt.savefig("EDM-Corrected-Error-2-"+example+"Solution.pdf",bbox_inches='tight')
 
@@ -301,7 +301,7 @@ for i in range(5,6):
     uEDMCORRECTION2 = solve(EDMCORRECTION2(nodes,h),force(nodes,h))
     plt.plot(x,abs(uEDM-exactSolution(x)),color='black',linestyle="-",label="EDM")
     plt.plot(x,abs(uEDMCORRECTION-exactSolution(x)),color='black',linestyle=":",label="EDM I")
-    plt.plot(x,abs(uEDMCORRECTION2-exactSolution(x)),color='black',linestyle="-.",label="EDM 2")
+    plt.plot(x,abs(uEDMCORRECTION2-exactSolution(x)),color='black',linestyle="-.",label="EDM II")
 
 plt.grid()
 plt.xlabel("x")

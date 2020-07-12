@@ -448,7 +448,7 @@ u8 = solve(VHM8(nodes,h),f8)
 plt.plot(x8,exactSolution(x8)-u8,label=r"$m=8$",color="black",linestyle="-.")
 print(h,len(x8),error(x8,u8))
 
-plt.title("Convergence study with Quartic Solution using VHM")
+plt.title("Convergence Study with Quartic Solution using VHM")
 plt.xlabel("x")
 plt.ylabel("Error in displacement")
 plt.grid()

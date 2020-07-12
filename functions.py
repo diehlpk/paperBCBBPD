@@ -57,7 +57,7 @@ plt.annotate("$x_1$", (xp[0]+2*0.012, 1.095))
 plt.annotate("$x_2$", (xp[1], 1.0125))
 plt.annotate("$x_{n-1}$", (xp2[1]-8*0.012, 1.095))
 plt.annotate("$x_{n-2}$", (xp2[0]-4*0.012, 1.0125))
-plt.title("Correction Factor for the EDM I method")
+plt.title("Correction Factor for EDM I")
 plt.grid()
 plt.savefig("EDM-correction.pdf",bbox_inches='tight')
 
