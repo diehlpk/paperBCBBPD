@@ -76,6 +76,27 @@ def VHM(n,h):
     MVHM *= 1./(8.*h*h)
     
     return  MVHM
+#############################################################################
+# Assemble the stiffness matrix for the local linear elasticity model (LLEM)
+#############################################################################
+
+def LLEM(n,h):
+    MLLEM = np.zeros([n,n])
+
+    MLLEM[0][0] = 1
+
+    for i in range(1,n-1):
+        MLLEM[i][i-1] = -2
+        MLLEM[i][i] = 4
+        MLLEM[i][i+1] = -2
+
+    MLLEM[n-1][n-1] = 3*h
+    MLLEM[n-1][n-2] = -4*h
+    MLLEM[n-1][n-3] = h
+
+    MLLEM *= 1./(2.*h*h)
+    
+    return  MLLEM
 
 #############################################################################
 #Computation
@@ -95,9 +116,9 @@ for i in range(9,14):
 
  
     u=np.linalg.solve(VHM(nodes,h),load)
+    uLLEM=np.linalg.solve(LLEM(nodes,h),load)
 
-    shif = min(u[1:len(u)-1])
-    print(str(n)+","+str(h)+","+str(max(((u[1:len(u)-2]-exactSolution(x)[1:len(u)-2])/exactSolution(x)[1:len(u)-2]))))
+    print(str(n)+","+str(h)+","+str(max(((u[1:len(u)-2]-exactSolution(x)[1:len(u)-2])/exactSolution(x)[1:len(u)-2])))+","+str(max(((uLLEM[1:len(u)-2]-exactSolution(x)[1:len(u)-2])/exactSolution(x)[1:len(u)-2]))))
     if i > 9:
         plt.plot(x,u-exactSolution(x),label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$", marker=markers[i-10], c="black",markevery=size[i-10],ls='')
 
@@ -136,8 +157,35 @@ plt.xlabel("x")
 plt.ylabel('Displacement $u$')
 plt.xscale('linear')
 plt.yscale('linear')
-plt.title(r"Convergence study with $\epsilon=$"+str(eps)+" Solution using VHM")
+plt.title(r"Convergence Study with $\epsilon=$"+str(eps)+" Solution using VHM")
 plt.grid()
 plt.legend()
 plt.savefig("VHM-convergence-eps-"+str(eps)+"-neumann-Solution.pdf",bbox_inches='tight')
 
+plt.cla()
+monochrome = (cycler('color', ['k']) * cycler('linestyle',['--',':','-.']))
+ax = plt.gca()
+ax.set_prop_cycle(monochrome)
+
+for i in [5,6,7]:
+    n = np.power(2,i)
+    h = 1./n
+    nodes = n+1
+    
+    x = np.linspace(0,1.,nodes)
+    load = force(x) 
+    load[len(x)-1] = boundary(1)
+
+    u=np.linalg.solve(LLEM(nodes,h),load)
+    plt.plot(x,u,label="$\delta=\sfrac{1}{2^{"+str(int(n/2))+"}}$")
+
+plt.plot(x,exactSolution(x),label=r"$\underline{u}(x)$",color="black",ls="-")
+
+plt.xlabel("x")
+plt.ylabel('Displacement $u$')
+plt.xscale('linear')
+plt.yscale('linear')
+plt.title(r"Convergence Study with $\epsilon=$"+str(eps)+" Solution using VHM")
+plt.grid()
+plt.legend()
+plt.savefig("LLEM-convergence-eps-"+str(eps)+"-neumann-Solution.pdf",bbox_inches='tight')

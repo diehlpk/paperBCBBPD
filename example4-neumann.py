@@ -162,7 +162,6 @@ plt.grid()
 plt.legend()
 plt.savefig("VHM-convergence-eps-"+str(eps)+"-neumann-Solution.pdf",bbox_inches='tight')
 
-
 plt.cla()
 monochrome = (cycler('color', ['k']) * cycler('linestyle',['--',':','-.']))
 ax = plt.gca()
