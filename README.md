@@ -1,4 +1,4 @@
-Examples: On the treatment of boundary conditions for bond-based peridynamics models [![DOI](https://zenodo.org/badge/208146943.svg)](https://zenodo.org/badge/latestdoi/208146943)
+Examples: On the treatment of boundary conditions for bond-based peridynamics models [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3942681.svg)](https://doi.org/10.5281/zenodo.3942681)
 
 ## Dependencies
 
