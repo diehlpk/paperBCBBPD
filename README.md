@@ -13,3 +13,8 @@ source deps/bin/activate
 pip install -r requirements.txt
 ./run.sh
 ```
+
+## References
+
+* Publication:
+* [Preprint](https://arxiv.org/abs/2008.09725): Prudhomme S, Diehl P. On the treatment of boundary conditions for bond-based peridynamic models. arXiv preprint arXiv:2008.09725. 2020 Aug 22.
